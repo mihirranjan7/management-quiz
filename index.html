@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Healthcare Management | Clavikl</title>
+    <meta name="description" content="Clavikl’s Hospital Management Quiz for MBA, BBA & PGDM students. Get certified, win prizes, and build your career in healthcare. Register for ₹199.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS Reset & Basic Setup */
+        :root {
+            --primary-blue: #007BFF;
+            --primary-blue-dark: #0056b3;
+            --text-dark: #1a1a1a;
+            --text-light: #555;
+            --text-footer: #c0c0c0;
+            --bg-white: #FFFFFF;
+            --bg-light-gray: #f9fafb;
+            --bg-footer: #111827;
+            --border-color: #e0e0e0;
+            --header-height: 70px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: var(--header-height);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+            line-height: 1.7;
+        }
+
+        /* Container & Layout */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 60px 0;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .section-animated {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .section-animated.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header & Navigation (Mobile First) */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+            margin-right: 8px;
+        }
+
+        .menu-toggle {
+            display: block; /* Visible on mobile */
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 10px;
+        }
+
+        .menu-toggle .hamburger {
+            width: 25px;
+            height: 2px;
+            background-color: var(--text-dark);
+            display: block;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle .hamburger::before,
+        .menu-toggle .hamburger::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 2px;
+            background-color: var(--text-dark);
+            left: 0;
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle .hamburger::before { top: -8px; }
+        .menu-toggle .hamburger::after { top: 8px; }
+
+        .menu-toggle.is-active .hamburger { background: transparent; }
+        .menu-toggle.is-active .hamburger::before { transform: rotate(45deg); top: 0; }
+        .menu-toggle.is-active .hamburger::after { transform: rotate(-45deg); top: 0; }
+
+        .nav-links {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            width: 100%;
+            height: calc(100vh - var(--header-height));
+            background-color: white;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .nav-links.is-active {
+            transform: translateX(0);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 1.5rem; /* Larger font for mobile menu */
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-blue);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+        
+        .nav-links a.active {
+            color: var(--primary-blue);
+        }
+
+        .header-cta {
+             display: none; /* Hidden on mobile nav list, shown in button */
+        }
+        
+        a.header-cta {
+             display: inline-block;
+             background-color: var(--primary-blue);
+             color: white;
+             padding: 10px 20px;
+             border-radius: 8px;
+             font-weight: 600;
+             transition: background-color 0.3s ease;
+        }
+
+        a.header-cta:hover {
+            background-color: var(--primary-blue-dark);
+            color: white;
+        }
+        
+        a.header-cta:hover::after {
+            width: 0;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+
+        h1 { font-size: 2.5rem; line-height: 1.2; letter-spacing: -1px; }
+        h2 { font-size: 2rem; margin-bottom: 48px; position: relative; display: inline-block; }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 4px;
+            background-color: var(--primary-blue);
+            border-radius: 2px;
+        }
+
+        p {
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Hero Section (Mobile First) - UPDATED */
+        .hero {
+            padding-top: calc(var(--header-height) + 40px);
+            padding-bottom: 60px;
+            background-color: var(--bg-white);
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            flex-direction: column; /* Mobile: text block on top of image block */
+            text-align: center; 
+        }
+
+        .hero-text {
+            flex: 1;
+            max-width: 100%;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #555;
+            margin-bottom: 32px;
+        }
+
+        .hero-image {
+            flex: 1;
+            max-width: 350px; /* Sized for mobile */
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px; 
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+        }
+        .hero-image svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-blue);
+            color: var(--bg-white);
+            padding: 16px 36px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+        }
+
+        .cta-button:hover {
+            background-color: var(--primary-blue-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Why Join Section */
+        #why-join { background-color: var(--bg-light-gray); }
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Mobile default */
+            gap: 30px;
+            margin-top: 40px;
+            text-align: left;
+        }
+        .feature-card {
+            background: var(--bg-white);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+        }
+        .feature-card .icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 20px;
+            color: var(--primary-blue);
+        }
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        .feature-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 0;
+            color: var(--text-light);
+        }
+
+        /* Quiz Details Section */
+        #details {
+            background: linear-gradient(180deg, var(--bg-white) 0%, var(--bg-light-gray) 100%);
+        }
+        .details-container {
+            display: flex;
+            flex-direction: column; /* Mobile First: stacked */
+            gap: 30px;
+            margin-top: 60px;
+        }
+        .detail-card {
+            background: var(--bg-white);
+            padding: 32px 24px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .detail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+        }
+        .detail-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 24px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .detail-card h3 svg {
+            width: 28px;
+            height: 28px;
+            color: var(--primary-blue);
+            flex-shrink: 0;
+        }
+        .detail-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .detail-card ul li {
+            display: flex;
+            align-items: flex-start; /* Align icon with first line of text */
+            gap: 12px;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+        .detail-card ul li svg {
+            width: 20px;
+            height: 20px;
+            color: var(--primary-blue);
+            flex-shrink: 0;
+            margin-top: 4px; /* Align icon better with text */
+        }
+        .detail-card p {
+            font-size: 1rem;
+            margin: 0;
+        }
+        .detail-card strong {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        
+        /* Certificate Section */
+        #certificate { background-color: var(--bg-light-gray); }
+        .certificate-preview {
+            background: var(--bg-white);
+            border: 1px solid #ddd;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            padding: 15px;
+            width: 95%; /* Mobile first */
+            max-width: 800px;
+            margin: 40px auto;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .certificate-preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .certificate-caption {
+            margin-top: 24px;
+            font-size: 1rem;
+            color: #666;
+            max-width: 600px;
+        }
+        
+        /* Payment Section */
+        #payment-section { background-color: var(--bg-white); }
+        .payment-card {
+            background-color: var(--bg-white);
+            max-width: 450px;
+            margin: 40px auto 0;
+            padding: 30px 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+        .payment-card h3 { font-size: 1.5rem; margin-bottom: 8px; }
+        .payment-card .price { font-size: 3.5rem; font-weight: 700; color: var(--primary-blue); margin-bottom: 24px; }
+        .payment-card .price sup { font-size: 1.8rem; font-weight: 600; }
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 32px;
+            text-align: left;
+            display: inline-block;
+        }
+        .benefits-list li { font-weight: 500; margin-bottom: 8px; color: var(--text-light); }
+        .benefits-list li::before {
+            content: '✓';
+            color: var(--primary-blue);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .payment-note { margin-top: 24px; font-size: 0.9rem; color: #777; }
+        
+        /* FAQ Section */
+        #faq { background: var(--bg-light-gray); }
+        .faq-container { max-width: 750px; margin: 0 auto; text-align: left; }
+        details {
+            background: var(--bg-white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            transition: background-color 0.2s ease;
+        }
+        details[open] { background-color: #fcfcfc; }
+        summary {
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 20px;
+            cursor: pointer;
+            outline: none;
+            position: relative;
+            list-style: none;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary::after {
+            content: '+';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: var(--primary-blue);
+            transition: transform 0.3s ease;
+        }
+        details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+        details div {
+            padding: 0 20px 20px;
+            color: #555;
+            border-top: 1px solid #f0f0f0;
+            margin: 0 20px;
+        }
+
+        /* Footer Styles */
+        .site-footer {
+            background-color: var(--bg-footer);
+            color: var(--text-footer);
+            padding: 100px 0 40px;
+            text-align: center;
+            position: relative;
+            margin-top: 80px;
+        }
+        .footer-wave {
+            position: absolute;
+            top: -1px;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            transform: rotate(180deg);
+        }
+        .footer-wave svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 80px;
+        }
+        .footer-wave .shape-fill { fill: var(--bg-footer); }
+        .footer-logo { display: inline-flex; align-items: center; color: var(--bg-white); text-decoration: none; font-size: 1.8rem; font-weight: 700; margin-bottom: 16px; }
+        .footer-logo svg { width: 38px; height: 38px; margin-right: 12px; }
+        .footer-tagline { font-size: 1.1rem; max-width: 450px; margin: 0 auto 32px; opacity: 0.8; }
+        .social-links { list-style: none; padding: 0; margin: 0 0 32px; display: flex; justify-content: center; gap: 16px; }
+        .social-links a { color: var(--bg-white); background-color: rgba(255,255,255,0.1); width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background-color 0.3s ease, transform 0.3s ease; }
+        .social-links a:hover { background-color: var(--primary-blue); transform: translateY(-3px); }
+        .social-links svg { width: 22px; height: 22px; }
+        .footer-nav { list-style: none; padding: 0; margin: 0 0 32px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+        .footer-nav a { color: var(--text-footer); text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
+        .footer-nav a:hover { color: var(--bg-white); text-decoration: underline; }
+        .copyright { font-size: 0.85rem; opacity: 0.6; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 32px; margin-top: 32px; }
+
+        /* Back to Top Button */
+        #back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        }
+        #back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+        #back-to-top:hover { background-color: var(--primary-blue-dark); }
+        #back-to-top svg { width: 24px; height: 24px; }
+
+
+        /* =================================== */
+        /* Tablet & Desktop Styles (min-width) */
+        /* =================================== */
+
+        @media (min-width: 768px) {
+            section {
+                padding: 80px 0;
+            }
+            h1 { font-size: 2.8rem; }
+            h2 { font-size: 2.5rem; }
+
+            /* Header for Desktop */
+            .menu-toggle {
+                display: none;
+            }
+            .nav-links {
+                position: static;
+                transform: none;
+                flex-direction: row;
+                height: auto;
+                width: auto;
+                background: none;
+                gap: 32px;
+            }
+            .nav-links a {
+                font-size: 0.95rem;
+            }
+            .nav-links li:last-child a {
+                 display: inline-block; /* Make Register Now a button */
+                 background-color: var(--primary-blue);
+                 color: white;
+                 padding: 10px 20px;
+                 border-radius: 8px;
+                 font-weight: 600;
+                 transition: background-color 0.3s ease;
+            }
+            .nav-links li:last-child a:hover {
+                background-color: var(--primary-blue-dark);
+                color: white;
+            }
+            .nav-links li:last-child a::after {
+                display: none; /* No underline on button */
+            }
+
+            /* Why Join Grid */
+             .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            
+            /* Footer Nav */
+            .footer-nav {
+                flex-direction: row;
+                gap: 32px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            h1 {
+                font-size: 3.2rem;
+            }
+             .hero .subtitle {
+                font-size: 1.5rem;
+            }
+            .hero-content {
+                flex-direction: row; /* Switch back to side-by-side */
+                text-align: left;
+            }
+            .hero-text {
+                max-width: 550px;
+            }
+            .hero-image {
+                max-width: 450px;
+            }
+
+            /* Details Section on Desktop */
+            .details-container {
+                flex-direction: row; /* Side-by-side on desktop */
+                align-items: stretch; /* Make cards same height */
+            }
+            .detail-card {
+                flex: 1; /* Each card takes up half the space */
+                padding: 40px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7V17L12 22L22 17V7L12 2ZM12 12.5L22 7M12 12.5V22M12 12.5L2 7M7 9.5L12 12.5L17 9.5M12 4.5L7 7L12 9.5L17 7L12 4.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Clavikl
+            </a>
+            <nav>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#why-join" class="nav-link">Why Join</a></li>
+                    <li><a href="#details" class="nav-link">Details</a></li>
+                    <li><a href="#certificate" class="nav-link">Certificate</a></li>
+                    <li><a href="#faq" class="nav-link">FAQ</a></li>
+                    <li><a href="#payment-section" class="header-cta">Register Now</a></li>
+                </ul>
+            </nav>
+             <button class="menu-toggle" id="menu-toggle" aria-label="Open Menu">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="container hero-content">
+                <div class="hero-text section-animated">
+                    <h1>Hospital Management Quiz 2025</h1>
+                    <p class="subtitle">Validate your expertise, earn a professional certificate, and fast-track your career in healthcare management.</p>
+                    <a href="#payment-section" class="cta-button">Register Now – ₹199</a>
+                </div>
+                <div class="hero-image section-animated">
+                   <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                      <path fill="#007BFF" d="M47.3,-67.3C60.6,-57.4,70.2,-42.2,76.2,-25.9C82.2,-9.6,84.6,7.8,79.5,23.1C74.4,38.4,61.8,51.6,47.8,61.4C33.8,71.2,18.4,77.6,1.4,78.9C-15.6,80.1,-31.2,76.2,-45.8,68.2C-60.4,60.2,-74,48.1,-79.8,32.7C-85.7,17.3,-83.8,-1.3,-77.7,-17.8C-71.6,-34.3,-61.3,-48.7,-48.1,-58.5C-34.9,-68.3,-18.8,-73.4,-2.2,-72.1C14.3,-70.7,28.7,-63.3,42.3,-54.3" transform="translate(100 100)" />
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <section id="why-join" class="section-animated">
+            <div class="container">
+                <h2>Why This Quiz Matters</h2>
+                   <div class="features-grid">
+                       <div class="feature-card">
+                           <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                           <h3>Get Certified</h3>
+                           <p>Boost your healthcare management career with a verified skill and an official Clavikl Certificate of Completion.</p>
+                       </div>
+                       <div class="feature-card">
+                           <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2v2H9V5z"></path></svg>
+                           <h3>Strengthen Your Resume</h3>
+                           <p>Instantly make your resume and LinkedIn profile stand out to recruiters in the competitive healthcare industry.</p>
+                       </div>
+                       <div class="feature-card">
+                           <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
+                           <h3>Real-World Knowledge</h3>
+                           <p>Learn critical, real-world hospital systems, processes, and terminologies that managers use every day.</p>
+                       </div>
+                   </div>
+            </div>
+        </section>
+
+        <section id="details" class="section-animated">
+            <div class="container">
+                <h2>What You'll Learn & How It Works</h2>
+                <div class="details-container">
+                    <div class="detail-card">
+                        <h3>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                            Topics Covered
+                        </h3>
+                        <ul>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><span>Hospital Operations & Workflows</span></li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><span>NABH & Quality Basics</span></li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><span>Healthcare Insurance & Compliance</span></li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><span>Patient Experience & Crisis Management</span></li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><span>Essential Medical Terminology</span></li>
+                        </ul>
+                    </div>
+                    <div class="detail-card">
+                        <h3>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                            Quiz Format
+                        </h3>
+                        <ul>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg><p><strong>Format:</strong> 30 Multiple-Choice Questions</p></li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg><p><strong>Duration:</strong> 30 Minutes</p></li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg><p><strong>Mode:</strong> Fully Online</p></li>
+                            <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg><p><strong>Eligibility:</strong> BBA, MBA, PGDM, & other students.</p></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="certificate" class="section-animated">
+            <div class="container">
+                <h2>Receive Your Professional Certificate</h2>
+                <p>All participants receive a verifiable, shareable certificate to prove their new knowledge.</p>
+                <div class="certificate-preview">
+                    <img src="https://res.cloudinary.com/dn1hjjczy/image/upload/v1753518721/Gold_Luxury_Employee_of_the_Year_Certificate_y6gqab.png" alt="Official Certificate of Completion from Clavikl">
+                </div>
+                <p class="certificate-caption">Your certificate is downloadable, easily shareable on LinkedIn, and a powerful addition to your professional profile.</p>
+            </div>
+        </section>
+
+        <section id="payment-section" class="section-animated">
+            <div class="container">
+                <h2>Take the First Step Today</h2>
+                <p>Join hundreds of other aspiring healthcare leaders who are investing in their careers.</p>
+
+                <div class="payment-card">
+                    <h3>One-Time Fee</h3>
+                    <div class="price"><sup>₹</sup>199</div>
+                    <ul class="benefits-list">
+                        <li>Official Certificate</li>
+                        <li>Career-Boosting Skill</li>
+                        <li>Full Quiz Access</li>
+                    </ul>
+                    <form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_QxcpcBEbD7dphM" async> </script> </form>
+                    <p class="payment-note">Payment is processed securely by Razorpay.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="section-animated">
+            <div class="container">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-container">
+                    <details>
+                        <summary>Will I get a certificate even if I don't score high?</summary>
+                        <div>
+                            <p>Absolutely! All participants who complete the quiz will receive a digital Certificate of Completion from Clavikl within 48 hours. The goal is learning and participation.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Who is this quiz for?</summary>
+                        <div>
+                            <p>This quiz is ideal for BBA, MBA, PGDM, BHM, and MPH students, as well as any graduate or professional exploring a career in hospital administration or healthcare management.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>What is the quiz format?</summary>
+                        <div>
+                            <p>It's a fully online quiz consisting of 30 Multiple Choice Questions (MCQs) to be answered in 30 minutes. It is designed to test your practical knowledge.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>What if I don't pass the quiz?</summary>
+                        <div>
+                            <p>You still receive the Certificate of Completion just for participating. Top scorers will receive special mentions and prizes, but the primary value is in gaining the knowledge and the certificate for all who finish.</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-wave">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+        <div class="container">
+            <a href="#" class="footer-logo">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7V17L12 22L22 17V7L12 2ZM12 12.5L22 7M12 12.5V22M12 12.5L2 7M7 9.5L12 12.5L17 9.5M12 4.5L7 7L12 9.5L17 7L12 4.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Clavikl
+            </a>
+            <p class="footer-tagline">Empowering the next generation of healthcare leaders.</p>
+
+            <ul class="social-links">
+                <li><a href="#" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a></li>
+                <li><a href="#" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a></li>
+            </ul>
+
+            <ul class="footer-nav">
+                 <li><a href="#why-join">Why Join</a></li>
+                 <li><a href="#details">Details</a></li>
+                 <li><a href="#certificate">Certificate</a></li>
+                 <li><a href="#faq">FAQ</a></li>
+            </ul>
+
+            <p class="copyright">
+                © 2025 Clavikl. All Rights Reserved. Designed to build careers.
+            </p>
+        </div>
+    </footer>
+
+    <button id="back-to-top" aria-label="Back to top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu Toggle
+            const menuToggle = document.getElementById('menu-toggle');
+            const navLinks = document.getElementById('nav-links');
+
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('is-active');
+                menuToggle.classList.toggle('is-active');
+            });
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navLinks.classList.contains('is-active')) {
+                        navLinks.classList.remove('is-active');
+                        menuToggle.classList.remove('is-active');
+                    }
+                });
+            });
+
+            // Intersection Observer for scroll animations
+            const animatedSections = document.querySelectorAll('.section-animated');
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            animatedSections.forEach(section => { observer.observe(section); });
+
+            // Active Nav Link Highlighting
+            const sections = document.querySelectorAll('section[id]');
+            const navLi = document.querySelectorAll('.nav-links a.nav-link');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= (sectionTop - 100)) { // 100px offset
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLi.forEach(a => {
+                    a.classList.remove('active');
+                    if (a.getAttribute('href').includes(current)) {
+                        a.classList.add('active');
+                    }
+                });
+            });
+
+            // Back to Top Button
+            const backToTopButton = document.getElementById('back-to-top');
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.add('visible');
+                } else {
+                    backToTopButton.classList.remove('visible');
+                }
+            });
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+
+</body>
+</html>
